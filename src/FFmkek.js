@@ -85,6 +85,10 @@ class FFmkek extends EventEmitter {
     this.currentPart = new Part()
     return this
   }
+
+  static get Part() {
+    return Part
+  }
 }
 
 module.exports = FFmkek

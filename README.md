@@ -40,7 +40,7 @@ new FFmkek()
   .write(someWriteableStream)
 ```
 
-## Documentation
+## FFmkek Documentation
 
 ### FFmkek.prototype.addInput(input)
 
@@ -68,14 +68,12 @@ The current command.
 
 ### FFmkek.prototype.addOption(name, [value1[, ...[, valueN]]])
 
-Add an option to the command. Values are concatenated automatically.
+Calls `addOption` on the current `Part`. See `Part.prototype.addOption()`.
 
 **Params**:
 
 * name: `string`
-  The name of the option. Does NOT prepend a hyphen automatically, you must add it yourself.
 * valueN: `string`
-  The set of values to set the option to.
 
 **Returns**: `FFmkek`
 The current command.
@@ -116,6 +114,87 @@ Shorthand for calling `setOutput()` and `run()`.
 
 **Returns**: `Promise<string|Stream>`
 The path of the file or the Stream that was written to.
+
+## Part Documentation
+
+A FFmkek instance usually contains multiple `Part`s. Parts are abstractisations of an input or an output.
+Each part has:
+
+* name: The file path or pipe number. (`some/folder/input.mp4` or `pipe:0`)
+* type: `input` or `output`
+* options: The options that belong to this `Part`
+
+Upon calling `FFmkek.prototype.addInput()` or `FFmkek.prototype.setOutput()`, the current part is "closed", along with the options added prior to it, and pushed to the `parts` array, which is a property of FFmkek instances.
+If you happen to need to modify a `Part` after calling those methods, you can just look them up in the `parts` array and modify them. Here's an example:
+
+```js
+const command = new FFmkek()
+  .addInput('some/file.mp4')
+  .setOutput('other/file.mp4')
+
+// Currently our command yields:
+// ffmpeg -i some/file.mp4 -o other/file.mp4
+
+command.parts.find(part => part.name === 'some/file.mp4').addOption('-r', 1)
+
+// Now our command looks like:
+// ffmpeg -r 1 -i some/file.mp4 -o other/file.mp4
+```
+
+[Here's](https://github.com/TeeSeal/coub-dl/blob/master/src/Coub.js#L48) a real world usage for this.
+
+### Part.prototype.setName(name)
+
+Sets the name of the part.
+
+**Params**:
+
+* name: `string`
+
+**Returns**: `Part` self.
+
+### Part.prototype.setType(type)
+
+Sets the type of the part. Can only be `input` or `output`. You can use the `Part.INPUT` and `Part.OUTPUT` constants instead.
+
+**Params**:
+
+* type: `string`
+
+**Returns**: `Part` self.
+
+### Part.prototype.addOption(name, [value1[, ...[, valueN]]])
+
+Adds an option to the `Part`. Values are concatenated automatically.
+Upon adding an option with the same name later on, the values are again concatenated, the option is not overwriten.
+
+**Params**:
+
+* name: `string`
+  The name of the option. Does NOT prepend a hyphen automatically, you must add it yourself.
+* valueN: `string`
+  The set of values to set the option to.
+
+**Returns**: `Part` self.
+
+### Part.prototype.apply(args)
+
+Pushes all its options and name to an array.
+
+```js
+new Part()
+  .setName('some/file.mp4')
+  .addOption('-c', 'copy')
+  .addOption('-vf', 'scale=300:-2', 'crop=150:150:0:0')
+  .apply([]) // => ['-c', 'copy', '-vf', 'scale=300:-2, crop=150:150:0:0', '-i', 'some/file.mp4']
+```
+
+**Params**:
+
+* args: `Array`
+
+**Returns**: `Array` The new array.
+
 
 ## Contributing
 
