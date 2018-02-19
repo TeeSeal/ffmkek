@@ -44,7 +44,7 @@ class FFmkek extends EventEmitter {
   }
 
   run() {
-    if (!this._outputPart) this.setOutput('kek.mp4')
+    if (!this._outputPart) this.setOutput(new PassThrough())
     const proc = spawn('ffmpeg', this.getArguments())
     if (this.inputStream) this.inputStream.pipe(proc.stdin)
     if (this.outputStream) proc.stdout.pipe(this.outputStream)
@@ -60,7 +60,7 @@ class FFmkek extends EventEmitter {
   }
 
   write(output) {
-    this.setOutput(output || new PassThrough())
+    if (output) this.setOutput(output)
     return this.run()
   }
 
