@@ -1,2 +1,2 @@
-# ffmkek
-A basic wrapper around FFmpeg for node.js
+# FFmkek
+A basic wrapper around FFmpeg for node.js.

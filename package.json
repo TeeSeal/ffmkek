@@ -1,0 +1,12 @@
+{
+  "name": "ffmkek",
+  "version": "0.0.1",
+  "description": "A basic wrapper around FFmpeg.",
+  "main": "src/FFmkek.js",
+  "repository": "https://github.com/TeeSeal/ffmkek.git",
+  "author": "TeeSeal <teesealz@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^4.18.0"
+  }
+}
