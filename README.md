@@ -80,7 +80,7 @@ The current command.
 
 ### FFmkek.prototype.setForce(flag)
 
-Controls wether to add the `-y` option to the command or not. By default is set to true.
+Controls whether to add the `-y` option to the command or not. By default is set to true.
 
 **Params**:
 
@@ -133,12 +133,12 @@ const command = new FFmkek()
   .setOutput('other/file.mp4')
 
 // Currently our command yields:
-// ffmpeg -i some/file.mp4 -o other/file.mp4
+// ffmpeg -i some/file.mp4 other/file.mp4
 
 command.parts.find(part => part.name === 'some/file.mp4').addOption('-r', 1)
 
 // Now our command looks like:
-// ffmpeg -r 1 -i some/file.mp4 -o other/file.mp4
+// ffmpeg -r 1 -i some/file.mp4 other/file.mp4
 ```
 
 [Here's](https://github.com/TeeSeal/coub-dl/blob/master/src/Coub.js#L48) a real world usage for this.
