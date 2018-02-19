@@ -18,11 +18,6 @@ class FFmkek extends EventEmitter {
     if (source) this.addInput(source)
   }
 
-  addOption(name, ...values) {
-    this.currentPart.addOption(name, ...values)
-    return this
-  }
-
   addInput(input) {
     return this._addPart(input, Part.INPUT)
   }
@@ -31,13 +26,14 @@ class FFmkek extends EventEmitter {
     return this._addPart(output, Part.OUTPUT)
   }
 
-  setForce(flag) {
-    this.force = Boolean(flag)
+  addOption(name, ...values) {
+    this.currentPart.addOption(name, ...values)
     return this
   }
 
-  get outputPart() {
-    return this.parts.find(part => part.type === Part.OUTPUT)
+  setForce(flag) {
+    this.force = Boolean(flag)
+    return this
   }
 
   getArguments() {
@@ -48,7 +44,7 @@ class FFmkek extends EventEmitter {
   }
 
   run() {
-    if (!this.outputPart) this.setOutput('kek.mp4')
+    if (!this._outputPart) this.setOutput('kek.mp4')
     const proc = spawn('ffmpeg', this.getArguments())
     if (this.inputStream) this.inputStream.pipe(proc.stdin)
     if (this.outputStream) proc.stdout.pipe(this.outputStream)
@@ -59,13 +55,17 @@ class FFmkek extends EventEmitter {
       if (this.outputStream) {
         return resolve(this.outputStream)
       }
-      proc.stderr.once('end', () => resolve(this.outputPart.name))
+      proc.stderr.once('end', () => resolve(this._outputPart.name))
     })
   }
 
   write(output) {
     this.setOutput(output || new PassThrough())
     return this.run()
+  }
+
+  get _outputPart() {
+    return this.parts.find(part => part.type === Part.OUTPUT)
   }
 
   _addPart(io, type) {
