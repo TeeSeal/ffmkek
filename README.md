@@ -20,7 +20,7 @@ Options and inputs/outputs have to be added in the same order you would add them
 const FFmkek = require('ffmkek')
 
 // ffmpeg -i some/video.mp4 -i some/audio.mp3 -shortest -vf "scale=300:-1, crop=150:150:0:0" out.mp4 -y
-new FFmpeg()
+new FFmkek()
   .addInput('some/video.mp4')
   .addInput('some/audio.mp3')
   .addOption('-shortest')
@@ -54,7 +54,7 @@ Adds a new input to the command.
 **Returns**: `FFmkek`
 The current command.
 
-## FFmkek.prototype.addOutput(output)
+### FFmkek.prototype.addOutput(output)
 
 Adds a new output to the command.
 
@@ -66,7 +66,7 @@ Adds a new output to the command.
 **Returns**: `FFmkek`
 The current command.
 
-## FFmkek.prototype.addOption(name, [value1[, ...[, valueN]]])
+### FFmkek.prototype.addOption(name, [value1[, ...[, valueN]]])
 
 Add an option to the command. Values are concatenated automatically.
 
@@ -80,7 +80,7 @@ Add an option to the command. Values are concatenated automatically.
 **Returns**: `FFmkek`
 The current command.
 
-## FFmkek.prototype.setForce(flag)
+### FFmkek.prototype.setForce(flag)
 
 Controls wether to add the `-y` option to the command or not. By default is set to true.
 
@@ -91,21 +91,21 @@ Controls wether to add the `-y` option to the command or not. By default is set 
 **Returns**: `FFmkek`
 The current command.
 
-## FFmkek.prototype.getArguments()
+### FFmkek.prototype.getArguments()
 
 Formats the command arguments and returns them as an array.
 
 **Returns**: `Array<string>`
 The current command arguments.
 
-## FFmkek.prototype.run()
+### FFmkek.prototype.run()
 
 Executes the current command. If no output is set, creates a `PassThrough` stream.
 
 **Returns**: `Promise<string|Stream>`
 The path of the file or the Stream that was written to.
 
-## FFmkek.prototype.write(output)
+### FFmkek.prototype.write(output)
 
 Shorthand for calling `setOutput()` and `run()`.
 
