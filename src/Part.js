@@ -26,19 +26,13 @@ class Part {
 
   apply(args) {
     for (const [name, values] of this.options) {
-      if (!values.length) {
-        args.push(name)
-        continue
-      }
-
-      const formatted =
-        values.length == 1 ? values[0] : values.join(', ')
-
-      args.push(name, formatted)
+      args.push(name)
+      if (values.length) args.push(values.join(', '))
     }
 
     if (this.type === Part.INPUT) args.push('-i')
     args.push(this.name)
+    return args
   }
 
   static get INPUT() {
