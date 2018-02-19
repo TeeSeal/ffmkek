@@ -114,8 +114,8 @@ Shorthand for calling `setOutput()` and `run()`.
 * output: `string|Stream`
   The path to the ouput file or a writeable stream.
 
-**Returns**: `FFmkek`
-The current command.
+**Returns**: `Promise<string|Stream>`
+The path of the file or the Stream that was written to.
 
 ## Contributing
 
