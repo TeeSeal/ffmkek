@@ -1,6 +1,6 @@
 {
   "name": "ffmkek",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A basic wrapper around FFmpeg.",
   "main": "src/FFmkek.js",
   "repository": "https://github.com/TeeSeal/ffmkek.git",
