@@ -94,7 +94,6 @@ class FFmkek extends EventEmitter {
     this._alias(proto.addInput, 'in', 'input')
       ._alias(proto.setOutput, 'out', 'output', 'addOutput')
       ._alias(proto.addOption, 'opt', 'option')
-      ._alias(proto.setForce, 'force')
       ._alias(proto.getArguments, 'args', 'arguments')
       ._alias(proto.write, 'save')
   }

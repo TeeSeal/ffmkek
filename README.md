@@ -46,6 +46,8 @@ new FFmkek()
 
 Adds a new input to the command.
 
+**Aliases**: `in`, `input`
+
 **Params**:
 
 * input: `string|Stream`
@@ -54,9 +56,11 @@ Adds a new input to the command.
 **Returns**: `FFmkek`
 The current command.
 
-### FFmkek.prototype.addOutput(output)
+### FFmkek.prototype.setOutput(output)
 
 Adds a new output to the command.
+
+**Aliases**: `out`, `output`, `addOutput`
 
 **Params**:
 
@@ -69,6 +73,8 @@ The current command.
 ### FFmkek.prototype.addOption(name, [value1[, ...[, valueN]]])
 
 Calls `addOption` on the current `Part`. See `Part.prototype.addOption()`.
+
+**Aliases**: `opt`, `option`
 
 **Params**:
 
@@ -93,6 +99,8 @@ The current command.
 
 Formats the command arguments and returns them as an array.
 
+**Aliases**: `args`, `arguments`
+
 **Returns**: `Array<string>`
 The current command arguments.
 
@@ -106,6 +114,8 @@ The path of the file or the Stream that was written to.
 ### FFmkek.prototype.write(output)
 
 Shorthand for calling `setOutput()` and `run()`.
+
+**Aliases**: `save`
 
 **Params**:
 
