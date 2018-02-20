@@ -1,7 +1,7 @@
 const Part = require('./Part')
 const { EventEmitter } = require('events')
 const { spawn } = require('child_process')
-const { Stream, PassThrough }= require('stream')
+const { Stream, PassThrough } = require('stream')
 
 class FFmkek extends EventEmitter {
   constructor(source) {
@@ -16,6 +16,7 @@ class FFmkek extends EventEmitter {
     this.force = true
 
     if (source) this.addInput(source)
+    this._setAliases()
   }
 
   addInput(input) {
@@ -71,7 +72,9 @@ class FFmkek extends EventEmitter {
   _addPart(io, type) {
     if (io instanceof Stream) {
       const prop = type === Part.OUTPUT ? 'outputStream' : 'inputStream'
-      if (this[prop]) throw new Error('only one input or output stream is supported')
+      if (this[prop]) {
+        throw new Error('only one input or output stream is supported')
+      }
 
       this[prop] = io
       this.currentPart.setName(`pipe:${this.streamCount}`)
@@ -83,6 +86,21 @@ class FFmkek extends EventEmitter {
     this.currentPart.setType(type)
     this.parts.push(this.currentPart)
     this.currentPart = new Part()
+    return this
+  }
+
+  _setAliases() {
+    const proto = FFmkek.prototype
+    this._alias(proto.addInput, 'in', 'input')
+      ._alias(proto.setOutput, 'out', 'output', 'addOutput')
+      ._alias(proto.addOption, 'opt', 'option')
+      ._alias(proto.setForce, 'force')
+      ._alias(proto.getArguments, 'args', 'arguments')
+      ._alias(proto.write, 'save')
+  }
+
+  _alias(method, ...aliases) {
+    for (const alias of aliases) this[alias] = method.bind(this)
     return this
   }
 
