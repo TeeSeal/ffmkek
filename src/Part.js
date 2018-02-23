@@ -1,7 +1,9 @@
 class Part {
-  constructor(name, type) {
-    this.name = null
-    this.type = null
+  constructor(command, id, name, type) {
+    this.command = command
+    this.id = id
+    this.name = name || null
+    this.type = type || null
     this.options = new Map()
 
     this.setName(name).setType(type)
@@ -33,6 +35,29 @@ class Part {
     if (this.type === Part.INPUT) args.push('-i')
     args.push(this.name)
     return args
+  }
+
+  isPipe() {
+    return this.name.startsWith('pipe')
+  }
+
+  isInput() {
+    return this.type === Part.INPUT
+  }
+
+  isOutput() {
+    return this.type === Part.OUTPUT
+  }
+
+  remove() {
+    this.command.parts.splice(this.id, 1)
+
+    if (this.isPipe()) {
+      if (this.isInput()) this.command.inputStream = null
+      else this.command.outputStream = null
+    }
+
+    return this
   }
 
   static get INPUT() {

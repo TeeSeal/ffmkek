@@ -6,10 +6,9 @@ const { Stream, PassThrough } = require('stream')
 class FFmkek extends EventEmitter {
   constructor(source) {
     super()
-    this.currentPart = new Part()
+    this.currentPart = new Part(this, 0)
     this.parts = []
 
-    this.streamCount = 0
     this.inputStream = null
     this.outputStream = null
 
@@ -71,21 +70,21 @@ class FFmkek extends EventEmitter {
 
   _addPart(io, type) {
     if (io instanceof Stream) {
-      const prop = type === Part.OUTPUT ? 'outputStream' : 'inputStream'
+      const isOutput = type === Part.OUTPUT
+      const prop = isOutput  ? 'outputStream' : 'inputStream'
       if (this[prop]) {
         throw new Error('only one input or output stream is supported')
       }
 
       this[prop] = io
-      this.currentPart.setName(`pipe:${this.streamCount}`)
-      this.streamCount++
+      this.currentPart.setName(`pipe:${isOutput ? 1 : 0}`)
     } else {
       this.currentPart.setName(io)
     }
 
     this.currentPart.setType(type)
     this.parts.push(this.currentPart)
-    this.currentPart = new Part()
+    this.currentPart = new Part(this, this.parts.length)
     return this
   }
 
