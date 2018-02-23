@@ -205,6 +205,12 @@ new Part()
 
 **Returns**: `Array` The new array.
 
+### Part.prototype.remove()
+
+Removes self from parent FFmkek command.
+
+**Returns**: `Part` self.
+
 
 ## Contributing
 
