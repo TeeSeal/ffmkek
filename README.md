@@ -125,6 +125,17 @@ Shorthand for calling `setOutput()` and `run()`.
 **Returns**: `Promise<string|Stream>`
 The path of the file or the Stream that was written to.
 
+### FFmkek.prototype.setPath(path)
+
+Changes the path to ffmpeg. If not called simply `ffmpeg` is used.
+
+**Params**:
+
+* path: `string`
+
+**Returns**: `FFmkek`
+The current command.
+
 ## Part Documentation
 
 A FFmkek instance usually contains multiple `Part`s. Parts are abstractisations of an input or an output.

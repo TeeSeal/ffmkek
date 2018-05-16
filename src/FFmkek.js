@@ -6,6 +6,8 @@ const { Stream, PassThrough } = require('stream')
 class FFmkek extends EventEmitter {
   constructor(source) {
     super()
+    this.path = 'ffmpeg'
+    
     this.currentPart = new Part(this, 0)
     this.parts = []
 
@@ -16,6 +18,11 @@ class FFmkek extends EventEmitter {
 
     if (source) this.addInput(source)
     this._setAliases()
+  }
+  
+  setPath(path) {
+    this.path = path
+    return this
   }
 
   addInput(input) {
@@ -45,7 +52,7 @@ class FFmkek extends EventEmitter {
 
   run() {
     if (!this._outputPart) this.setOutput(new PassThrough())
-    const proc = spawn('ffmpeg', this.getArguments())
+    const proc = spawn(this.path, this.getArguments())
     if (this.inputStream) this.inputStream.pipe(proc.stdin)
     if (this.outputStream) proc.stdout.pipe(this.outputStream)
 
