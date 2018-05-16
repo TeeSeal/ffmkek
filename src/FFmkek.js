@@ -22,6 +22,7 @@ class FFmkek extends EventEmitter {
   
   setPath(path) {
     this.path = path;
+    return this;
   }
 
   addInput(input) {
