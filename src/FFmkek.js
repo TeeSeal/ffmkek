@@ -6,7 +6,7 @@ const { Stream, PassThrough } = require('stream')
 class FFmkek extends EventEmitter {
   constructor(source) {
     super()
-    this.path = 'ffmpeg';
+    this.path = 'ffmpeg'
     
     this.currentPart = new Part(this, 0)
     this.parts = []
@@ -21,8 +21,8 @@ class FFmkek extends EventEmitter {
   }
   
   setPath(path) {
-    this.path = path;
-    return this;
+    this.path = path
+    return this
   }
 
   addInput(input) {
